@@ -13,6 +13,9 @@ class Program
 
         unfortunately, this does not exclude any trees of the same height.
         i can't figure how to fix that!
+
+        latest commit added a check to make sure that the checked tree was the same KEY instead of value
+        which fixed visiblity from TOP and LEFT sightlines, but NOT RIGHT and BOTTOM... will investigate
         */
 
         string[] filerows = System.IO.File.ReadAllLines("test.txt");
@@ -58,7 +61,7 @@ class Program
 
                 // now we can use these two lists to check if our tree is visible, based on if it's the highest int the list
 
-                if ((tree.Value == r_sorted[^1].Value && tree.Key == r_sorted[^1].Key) || (tree.Value == l_sorted[^1].Value && tree.Key == l_sorted[^1].Key)) // if is the last value in the list, is visible so should add to "visible trees" list
+                if (tree.Key == r_sorted[^1].Key || tree.Key == l_sorted[^1].Key) // if is the last value in the list, is visible so should add to "visible trees" list
                 {
                     visibletrees.Add(tree);
                 }
@@ -100,7 +103,7 @@ class Program
 
                 // now we can use these two lists to check if our tree is visible, based on if it's the highest int the list
 
-                if ((tree.Value == r_sorted[^1].Value && tree.Key == r_sorted[^1].Key) || (tree.Value == l_sorted[^1].Value && tree.Key == l_sorted[^1].Key)) // if is the last value in the list, is visible so should add to "visible trees" list
+                if (tree.Key == r_sorted[^1].Key || tree.Key == l_sorted[^1].Key) // if is the last value in the list, is visible so should add to "visible trees" list
                 {
                     visibletrees.Add(tree);
                 }
