@@ -58,7 +58,7 @@ class Program
 
                 // now we can use these two lists to check if our tree is visible, based on if it's the highest int the list
 
-                if (tree.Value == r_sorted[^1].Value || tree.Value == l_sorted[^1].Value) // if is the last value in the list, is visible so should add to "visible trees" list
+                if ((tree.Value == r_sorted[^1].Value && tree.Key == r_sorted[^1].Key) || (tree.Value == l_sorted[^1].Value && tree.Key == l_sorted[^1].Key)) // if is the last value in the list, is visible so should add to "visible trees" list
                 {
                     visibletrees.Add(tree);
                 }
@@ -100,7 +100,7 @@ class Program
 
                 // now we can use these two lists to check if our tree is visible, based on if it's the highest int the list
 
-                if (tree.Value == r_sorted[^1].Value || tree.Value == l_sorted[^1].Value) // if is the last value in the list, is visible so should add to "visible trees" list
+                if ((tree.Value == r_sorted[^1].Value && tree.Key == r_sorted[^1].Key) || (tree.Value == l_sorted[^1].Value && tree.Key == l_sorted[^1].Key)) // if is the last value in the list, is visible so should add to "visible trees" list
                 {
                     visibletrees.Add(tree);
                 }
