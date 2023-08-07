@@ -49,6 +49,7 @@ class Program
 
                 List<KeyValuePair<string, int>> r_sorted = sorted.ToList();
                 List<KeyValuePair<string, int>> l_sorted = sorted.ToList();
+                //l_sorted.Reverse(); // change ^1 to 0 on line 65 
 
                 foreach (KeyValuePair<string, int> s_tree in sorted)
                 {
@@ -56,24 +57,28 @@ class Program
                     if (Int32.Parse(s_tree.Key.Split(",")[1]) > x_var) { l_sorted.Remove(s_tree); } // remove anything lower (looking from the left) than the current tree
                 }
 
-                r_sorted = r_sorted.DistinctBy(x => x.Value).ToList();
-                l_sorted = l_sorted.DistinctBy(x => x.Value).ToList();
+                // r_sorted = r_sorted.DistinctBy(x => x.Value).ToList();
+                // l_sorted = l_sorted.DistinctBy(x => x.Value).ToList();
 
                 // now we can use these two lists to check if our tree is visible, based on if it's the highest int the list
 
-                if (tree.Key == r_sorted[^1].Key || tree.Key == l_sorted[^1].Key) // if is the last value in the list, is visible so should add to "visible trees" list
+                if (tree.Key == r_sorted[^1].Key || tree.Key == l_sorted[^1/*0*/].Key) // if is the last value in the list, is visible so should add to "visible trees" list
                 {
                     visibletrees.Add(tree);
                 }
 
-                // // write tree heights visible from right
-                // foreach (KeyValuePair<string, int> printtree in r_sorted) { Console.Write(printtree.Value); }
+                // write tree heights visible from right
+                foreach (KeyValuePair<string, int> printtree in l_sorted) { Console.Write($"({printtree.Key})"); }
+                Console.WriteLine("");
+
+                // // write tree heights visible from left
+                // foreach (KeyValuePair<string, int> printtree in l_sorted) { Console.Write(printtree.Value); }
                 // Console.WriteLine("");
             }
 
-            // write all trees
-            foreach (KeyValuePair<string, int> tree in row) { Console.Write(tree.Value); }
-            Console.WriteLine("");
+            // // write all trees
+            // foreach (KeyValuePair<string, int> tree in row) { Console.Write(tree.Value); }
+            // Console.WriteLine("");
 
             // // write all positions
             // foreach (KeyValuePair<string, int> tree in row) { Console.Write($"({tree.Key})"); }
