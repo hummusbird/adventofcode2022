@@ -89,7 +89,7 @@ class Program
                 List<KeyValuePair<string, int>> r_sorted = sorted.ToList();
                 List<KeyValuePair<string, int>> l_sorted = sorted.ToList();
 
-                foreach (KeyValuePair<string, int> s_tree in sorted)
+                foreach (KeyValuePair<string, int> s_tree in sorted) // CAN PROBABLY FIX THE BUG HERE:
                 {
                     if (Int32.Parse(s_tree.Key.Split(",")[0]) < x_var) { r_sorted.Remove(s_tree); } // remove anything lower (looking from the bottom) than the current tree
                     if (Int32.Parse(s_tree.Key.Split(",")[0]) > x_var) { l_sorted.Remove(s_tree); } // remove anything lower (looking from the top) than the current tree
