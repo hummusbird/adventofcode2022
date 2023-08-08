@@ -20,6 +20,11 @@ class Program
         It seems to be that when sorting the list, if two keypairs have the same value, it sorts by key!
         so when sorting L to R it works fine as the leftmost one is first, but when sorting R to L, it's still leftmost.
         Reversing the array and checking for the first value didn't help. 
+
+        The solution was to orderby value and then use "ThenBy()" on the key, JUST for the right and bottom lists.
+        then removing duplicates from the left and top lists
+        
+        Finally!
         */
 
         string[] filerows = System.IO.File.ReadAllLines("input.txt");
