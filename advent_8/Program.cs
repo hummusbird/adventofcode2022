@@ -16,6 +16,10 @@ class Program
 
         latest commit added a check to make sure that the checked tree was the same KEY instead of value
         which fixed visiblity from TOP and LEFT sightlines, but NOT RIGHT and BOTTOM... will investigate
+
+        It seems to be that when sorting the list, if two keypairs have the same value, it sorts by key!
+        so when sorting L to R it works fine as the leftmost one is first, but when sorting R to L, it's still leftmost.
+        Reversing the array and checking for the first value didn't help. 
         */
 
         string[] filerows = System.IO.File.ReadAllLines("test.txt");
@@ -49,7 +53,6 @@ class Program
 
                 List<KeyValuePair<string, int>> r_sorted = sorted.ToList();
                 List<KeyValuePair<string, int>> l_sorted = sorted.ToList();
-                //l_sorted.Reverse(); // change ^1 to 0 on line 65 
 
                 foreach (KeyValuePair<string, int> s_tree in sorted)
                 {
@@ -62,7 +65,7 @@ class Program
 
                 // now we can use these two lists to check if our tree is visible, based on if it's the highest int the list
 
-                if (tree.Key == r_sorted[^1].Key || tree.Key == l_sorted[^1/*0*/].Key) // if is the last value in the list, is visible so should add to "visible trees" list
+                if (tree.Key == r_sorted[^1].Key || tree.Key == l_sorted[^1].Key) // if is the last value in the list, is visible so should add to "visible trees" list
                 {
                     visibletrees.Add(tree);
                 }
