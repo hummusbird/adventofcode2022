@@ -22,7 +22,7 @@ class Program
         Reversing the array and checking for the first value didn't help. 
         */
 
-        string[] filerows = System.IO.File.ReadAllLines("test.txt");
+        string[] filerows = System.IO.File.ReadAllLines("input.txt");
 
         List<List<KeyValuePair<string, int>>> rows = new(); // we want to store the position AND the value together, so we can sort by value later while still having accesible position
 
@@ -45,13 +45,14 @@ class Program
 
         foreach (List<KeyValuePair<string, int>> row in rows) // sorted horizontally
         {
+            List<KeyValuePair<string, int>> sorted_r = row.OrderBy(x => x.Value).ThenBy(x => x.Key).ToList();
             List<KeyValuePair<string, int>> sorted = row.OrderBy(x => x.Value).ToList();
 
             foreach (KeyValuePair<string, int> tree in row)
             {
                 int x_var = Int32.Parse(tree.Key.Split(",")[1]);
 
-                List<KeyValuePair<string, int>> r_sorted = sorted.ToList();
+                List<KeyValuePair<string, int>> r_sorted = sorted_r.ToList();
                 List<KeyValuePair<string, int>> l_sorted = sorted.ToList();
 
                 foreach (KeyValuePair<string, int> s_tree in sorted)
@@ -61,7 +62,7 @@ class Program
                 }
 
                 // r_sorted = r_sorted.DistinctBy(x => x.Value).ToList();
-                // l_sorted = l_sorted.DistinctBy(x => x.Value).ToList();
+                l_sorted = l_sorted.DistinctBy(x => x.Value).ToList();
 
                 // now we can use these two lists to check if our tree is visible, based on if it's the highest int the list
 
@@ -70,18 +71,18 @@ class Program
                     visibletrees.Add(tree);
                 }
 
-                // write tree heights visible from right
-                foreach (KeyValuePair<string, int> printtree in l_sorted) { Console.Write($"({printtree.Key})"); }
-                Console.WriteLine("");
+                // // write tree heights visible from right
+                // foreach (KeyValuePair<string, int> printtree in r_sorted) { Console.Write($"{printtree.Value}"); }
+                // Console.WriteLine("");
 
                 // // write tree heights visible from left
                 // foreach (KeyValuePair<string, int> printtree in l_sorted) { Console.Write(printtree.Value); }
                 // Console.WriteLine("");
             }
 
-            // // write all trees
-            // foreach (KeyValuePair<string, int> tree in row) { Console.Write(tree.Value); }
-            // Console.WriteLine("");
+            // write all trees
+            foreach (KeyValuePair<string, int> tree in row) { Console.Write(tree.Value); }
+            Console.WriteLine("");
 
             // // write all positions
             // foreach (KeyValuePair<string, int> tree in row) { Console.Write($"({tree.Key})"); }
@@ -91,22 +92,24 @@ class Program
         foreach (KeyValuePair<string, int> row in rows[0]) // sorted vertically
         {
             int column = Int32.Parse(row.Key.Split(",")[1]); // get Y
+
+            List<KeyValuePair<string, int>> sorted_r = rows.Select(x => x[column]).OrderBy(x => x.Value).ThenBy(x => x.Key).ToList(); // sort by COLUMN instead of ROW
             List<KeyValuePair<string, int>> sorted = rows.Select(x => x[column]).OrderBy(x => x.Value).ToList(); // sort by COLUMN instead of ROW
 
             foreach (KeyValuePair<string, int> tree in sorted)
             {
                 int x_var = Int32.Parse(tree.Key.Split(",")[0]);
 
-                List<KeyValuePair<string, int>> r_sorted = sorted.ToList();
+                List<KeyValuePair<string, int>> r_sorted = sorted_r.ToList();
                 List<KeyValuePair<string, int>> l_sorted = sorted.ToList();
 
-                foreach (KeyValuePair<string, int> s_tree in sorted) // CAN PROBABLY FIX THE BUG HERE:
+                foreach (KeyValuePair<string, int> s_tree in sorted)
                 {
                     if (Int32.Parse(s_tree.Key.Split(",")[0]) < x_var) { r_sorted.Remove(s_tree); } // remove anything lower (looking from the bottom) than the current tree
                     if (Int32.Parse(s_tree.Key.Split(",")[0]) > x_var) { l_sorted.Remove(s_tree); } // remove anything lower (looking from the top) than the current tree
                 }
 
-                r_sorted = r_sorted.DistinctBy(x => x.Value).ToList();
+                // r_sorted = r_sorted.DistinctBy(x => x.Value).ToList();
                 l_sorted = l_sorted.DistinctBy(x => x.Value).ToList();
 
                 // now we can use these two lists to check if our tree is visible, based on if it's the highest int the list
@@ -125,7 +128,6 @@ class Program
             // foreach (KeyValuePair<string, int> tree in sorted) { Console.Write(tree.Value); }
             // Console.WriteLine("");
         }
-
 
         visibletrees = visibletrees.Distinct().ToList(); // remove any duplicates
 
